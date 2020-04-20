@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/app.css">
+<title>ユーザー情報</title>
+</head>
+<SCRIPT>
+document.myform.btn.addEventListener('click', function() {
+
+    document.myform.submit();
+
+});
+</SCRIPT>
+<body>
+		<form th:action="@{/insuranceInfoSearch}"  name="myform" method="post" th:object="${kariForm}">
+
+			<div class="navbar-fixed-top ">
+			    <nav class="navbar  navbar-light  " style="background-color: #3671ba; color:white">
+					<a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/userInfo" role="button" aria-expanded="false">ユーザー情報</a>
+					<a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/insuranceInfo" role="button" aria-expanded="false">営業職員情報</a>
+			        <a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/download" role="button" aria-expanded="false">CSVダウンロード</a>
+					<a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/staff" role="button" aria-expanded="false" th:if="${role == '1'}">スタッフ登録</a>
+			    </nav>
+		    </div>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div th:if="${msg != null}" class="alert alert-success" role="alert" style="background-color:#FFFFFF">
+            	<p th:text="${msg}"></p>
+            </div>
+            <div class="card">
+                <div class="card-body">
+					<table class="table" style="border:0px">
+						<tr>
+							<td style="border:0; width:20%">保険募集人ID</td>
+							<td style="text-align:left; border:0; width:30%">
+		                        <input type="text" class="form-control" name="hokenId" th:value="${form.getHokenId()}">
+							</td>
+							<td style="border:0; width:20%">所属会社</td>
+							<td style="text-align:left; border:0; width:30%">
+		                        <input type="text" class="form-control" name="company" th:value="${form.getCompany()}">
+							</td>
+						</tr>
+						<tr>
+							<td style="border:0; width:20%">氏名</td>
+							<td style="text-align:left; border:0; width:30%">
+		                        <input type="text" class="form-control" name="name" th:value="${form.getName()}">
+							</td>
+							<td style="border:0; width:20%">電話番号</td>
+							<td style="text-align:left; border:0; width:30%">
+		                        <input type="tel" class="form-control" name="phone" th:value="${form.getPhone()}" maxlength="11" placeholder="ハイフン無">
+							</td>
+						</tr>
+						<tr>
+							<td style="border:0; width:20%">メールアドレス</td>
+							<td style="text-align:left; border:0; width:30%">
+		                        <input type="tel" class="form-control" name="mailAddress" th:value="${form.getMailAddress()}" maxlength="11">
+							</td>
+							<td style="border:0;" colspan="2"></td>
+						</tr>
+						<tr>
+							<td style="border:0; width:20%">表示項目</td>
+							<td colspan="3" style="text-align:left; border:0;">
+		                        <label>お客様ID&nbsp;<input type="checkbox" name="checkUserId" value="1" th:checked="${form.getCheckUserId()}"></label>&nbsp;&nbsp;&nbsp;
+		                        <label>名前&nbsp;<input type="checkbox" name="checkName" value="1" th:checked="${form.getCheckName()}"></label>&nbsp;&nbsp;&nbsp;
+		                        <label>カタカナ&nbsp;<input type="checkbox" name="checkKana" value="1" th:checked="${form.getCheckKana()}"></label>&nbsp;&nbsp;&nbsp;
+		                        <label>保険募集人ID&nbsp;<input type="checkbox" name="checkHokenId" value="1" th:checked="${form.getCheckHokenId()}"></label>&nbsp;&nbsp;&nbsp;
+		                        <label>電話番号&nbsp;<input type="checkbox" name="checkPhone" value="1" th:checked="${form.getCheckPhone()}"></label>&nbsp;&nbsp;&nbsp;
+		                        <label>生年月日&nbsp;<input type="checkbox" name="checkBirthday" value="1" th:checked="${form.getCheckBirthday()}"></label><br>
+		                        <label>ONSEI結果待ち&nbsp;<input type="checkbox" name="checkOnseiWait" value="1" th:checked="${form.getCheckOnseiWait()}"></label>&nbsp;&nbsp;&nbsp;
+		                        <label>アプリのロック&nbsp;<input type="checkbox" name="checkApplication" value="1" th:checked="${form.getCheckApplication()}"></label>&nbsp;&nbsp;&nbsp;
+		                        <label>ONSEI強制起動の解除&nbsp;<input type="checkbox" name="checkOnseiRelease" value="1" th:checked="${form.getCheckOnseiRelease()}"></label>&nbsp;
+							</td>
+						</tr>
+						<tr>
+							<td style="border:0;align:center" colspan="4">
+								<button type="submit" class="btn btn-primary" style="width:150px">
+	                                検索
+	                            </button>
+							</td>
+						</tr>
+					</table>
+                </div>
+            </div>
+<br><br>
+            <div th:if="${list != null} and ${list.size() > 0}" class="card company-list">
+				<div class="card-header">検索結果</div>
+					<ul class="list-group">
+						<li class="list-group-item">
+							<ul class="table-row row">
+								<li class="title col-md-1" th:if="${form.getCheckUserId() != null}">お客様ID</li>
+								<li class="title col-md-2" th:if="${form.getCheckName() != null}">名前</li>
+								<li class="title col-md-2" th:if="${form.getCheckKana() != null}">カタカナ</li>
+								<li class="title col-md-1" th:if="${form.getCheckHokenId() != null}">保険募集人ID</li>
+								<li class="title col-md-1" th:if="${form.getCheckPhone() != null}">電話番号</li>
+								<li class="title col-md-1" th:if="${form.getCheckBirthday() != null}">生年月日</li>
+								<li class="title col-md-1" th:if="${form.getCheckOnseiWait() != null}">ONSEI結果待ち</li>
+								<li class="title col-md-1" th:if="${form.getCheckApplication() != null}">アプリのロック</li>
+								<li class="title col-md-1" th:if="${form.getCheckOnseiRelease() != null}">ONSEI強制起動の解除</li>
+								<li class="title col-md-1">詳細</li>
+							</ul>
+						</li>
+
+						<li class="list-group-item" >
+							<ul th:each="data : ${list}" class="table-row row" >
+								<li class="item col-md-1" th:if="${form.getCheckUserId() != null}">
+									<p th:text="${data.id}" />
+								</li>
+								<li class="item col-md-2" th:if="${form.getCheckName() != null}">
+									<p th:text="${data.charName}" />
+								</li>
+								<li class="item col-md-2" th:if="${form.getCheckKana() != null}">
+									<p th:text="${data.kanaName}" />
+								</li>
+								<li class="item col-md-1" th:if="${form.getCheckHokenId() != null}">
+									<p th:text="${data.insuranceId}" />
+								</li>
+								<li class="item col-md-1" th:if="${form.getCheckPhone() != null}">
+									<p th:text="${data.phoneNum}" />
+								</li>
+								<li class="item col-md-1" th:if="${form.getCheckBirthday() != null}">
+									<p th:text="${data.Birth}" />
+								</li>
+								<li class="item col-md-1" th:if="${form.getCheckOnseiWait() != null}">
+									<p th:text="${data.onseiWait}" />
+								</li>
+								<li class="item col-md-1" th:if="${form.getCheckApplication() != null}">
+									<p th:text="${data.applicationLock}" />
+								</li>
+								<li class="item col-md-1" th:if="${form.getCheckOnseiRelease() != null}">
+									<p th:text="${data.onseiReleas}" />
+								</li>
+								<li class="item col-md-1">
+									<a th:href="@{'/userDetail?id=' + ${data.id}}" class="btn btn-primary btn-sm">詳細</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+			 </div>
+		</div>
+	</div>
+</div>
+
+</form>
+
+</body>
+</html>

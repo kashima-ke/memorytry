@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/app.css">
+<title>ユーザー情報</title>
+</head>
+<SCRIPT>
+document.myform.btn.addEventListener('click', function() {
+
+    document.myform.submit();
+
+});
+</SCRIPT>
+<body>
+		<form th:action="@{/userDetailUpdate}"  name="myform" method="post" th:object="${kariForm}">
+
+			<div class="navbar-fixed-top ">
+			    <nav class="navbar  navbar-light  " style="background-color: #3671ba; color:white">
+					<a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/userInfo" role="button" aria-expanded="false">ユーザー情報</a>
+					<a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/insuranceInfo" role="button" aria-expanded="false">営業職員情報</a>
+			        <a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/download" role="button" aria-expanded="false">CSVダウンロード</a>
+					<a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/staff" role="button" aria-expanded="false" th:if="${role == '1'}">スタッフ登録</a>
+			    </nav>
+		    </div>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div th:if="${msg != null}" class="alert alert-success" role="alert" style="background-color:#FFFFFF">
+            	<p th:text="${msg}"></p>
+            </div>
+            <div class="card">
+                <div class="card-body">
+					<table class="table" style="border:0px">
+						<tr>
+							<td style="border:0; width:20%;">お客様ID</td>
+							<td style="text-align:left; border:0; width:30%" th:text="${form.getId()}">
+							</td>
+							<td style="border:0; width:20%">氏名</td>
+							<td style="text-align:left; border:0; width:30%" th:text="${form.getCharName()}">
+							</td>
+						</tr>
+						<tr>
+							<td style="border:0; width:20%">カタカナ</td>
+							<td style="text-align:left; border:0; width:30%" th:text="${form.getKanaName()}">
+							</td>
+							<td style="border:0; width:20%">電話番号</td>
+							<td style="text-align:left; border:0; width:30%" th:text="${form.getPhoneNum()}">
+							</td>
+						</tr>
+						<tr>
+							<td style="border:0; width:20%">生年月日</td>
+							<td style="text-align:left; border:0; width:30%" th:text="${form.getBirth()}">
+							</td>
+							<td style="border:0;" colspan="2">
+							</td>
+						</tr>
+						<tr>
+							<td style="border:0; width:20%">保険募集人ID</td>
+							<td style="text-align:left; border:0; width:30%" th:text="${form.getInsuranceId()}">
+							</td>
+							<td style="border:0; width:20%">保険募集人氏名</td>
+							<td style="text-align:left; border:0; width:30%" th:text="${form.getInsCharName()}">
+							</td>
+						</tr>
+						<tr>
+							<td style="border:0; width:20%">保険募集人所属会社</td>
+							<td style="text-align:left; border:0; width:30%" th:text="${form.getInsCompany()}">
+							</td>
+							<td style="border:0; width:20%">保険募集人電話番号</td>
+							<td style="text-align:left; border:0; width:30%" th:text="${form.getInsPhoneNum()}">
+							</td>
+						</tr>
+						<tr>
+							<td style="border:0; width:20%">保険募集人メールアドレス</td>
+							<td style="text-align:left; border:0; width:30%" th:text="${form.getInsMail()}">
+							</td>
+							<td style="border:0;" colspan="2">
+							</td>
+						</tr>
+						<tr>
+							<td style="border:0; width:20%">ONSEI結果待ち</td>
+							<td style="text-align:left; border:0; width:30%" th:if="${form.getOnseiWait() != null and form.getOnseiWait() == '1'}">
+								<input type="checkbox" name="onseiWait" value="1" checked>
+							<td style="text-align:left; border:0; width:30%" th:if="${form.getOnseiWait() == null or form.getOnseiWait() == '0'}">
+								<input type="checkbox" name="onseiWait" value="1">
+							</td>
+							<td style="border:0;" colspan="2">
+							</td>
+						</tr>
+						<tr>
+							<td style="border:0; width:20%">アプリのロック</td>
+							<td style="text-align:left; border:0; width:30%" th:if="${form.getApplicationLock() != null and form.getApplicationLock() == '1'}">
+								<input type="checkbox" name="application" value="1" checked>
+							<td style="text-align:left; border:0; width:30%" th:if="${form.getApplicationLock() == null or form.getApplicationLock() == '0'}">
+								<input type="checkbox" name="application" value="1">
+							</td>
+							<td style="border:0;" colspan="2">
+							</td>
+						</tr>
+						<tr>
+							<td style="border:0; width:20%">ONSEI強制起動の解除</td>
+							<td style="text-align:left; border:0; width:30%" th:if="${form.getOnseiReleas() != null and form.getOnseiReleas() == '1'}">
+								<input type="checkbox" name="onseiRelease" value="1" checked>
+							<td style="text-align:left; border:0; width:30%" th:if="${form.getOnseiReleas() == null or form.getOnseiReleas() == '0'}">
+								<input type="checkbox" name="onseiRelease" value="1">
+							</td>
+							<td style="border:0;" colspan="2">
+							</td>
+						</tr>
+						<tr>
+							<td style="border:0; width:20%">対応内容</td>
+							<td style="text-align:left; border:0;" colspan="3">
+								<textarea cols="80" rows="6" name="content"></textarea>
+							</td>
+						</tr>
+						<tr>
+							<td style="border:0; width:20%">対応済み</td>
+							<td style="text-align:left; border:0; width:30%">
+								<input type="checkbox" name="finishFlg" value="1">
+							</td>
+							<td style="border:0;" colspan="2">
+							</td>
+						</tr>
+						<tr>
+							<td style="border:0;align:center" colspan="4">
+								<button type="submit" class="btn btn-primary" style="width:150px" onclick="if(!confirm('更新します。よろしいですか？'))return false">
+	                                更新
+	                            </button>
+							</td>
+						</tr>
+					</table>
+					<input type="hidden" id="userId" name="userId" th:value="${form.getId()}">
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+
+</form>
+
+</body>
+</html>

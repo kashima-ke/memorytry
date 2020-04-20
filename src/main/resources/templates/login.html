@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/app.css">
+<title>ログイン</title>
+</head>
+<SCRIPT>
+document.myform.btn.addEventListener('click', function() {
+
+    document.myform.submit();
+
+});
+</SCRIPT>
+<body>
+	<form th:action="@{/loginCheck}"  name="myform" method="post" th:object="${kariForm}">
+
+<!--
+		<div class="navbar-fixed-top ">
+		    <nav class="navbar navbar-expand-xl navbar-light  " style="background-color: #3671ba; color:white">
+		    </nav>
+	    </div>
+-->
+
+		<div class="container">
+		    <div class="row justify-content-center">
+		        <div class="col-md-8">
+		            <div th:if="${msg != null}" class="alert alert-success" role="alert" style="background-color:#FFFFFF">
+		            	<p th:text="${msg}"></p>
+		            </div>
+		            <div class="card">
+		                <div class="card-body">
+	                        <div class="form-group row">
+	                            <label for="userId" class="col-md-4 col-form-label text-md-right">ユーザーID</label>
+
+	                            <div class="col-md-6">
+	                                <input type="text" class="form-control" id="userId" name="userId" value="" autocomplete="userId" autofocus required>
+	                            </div>
+	                        </div>
+
+	                        <div class="form-group row">
+	                            <label for="password" class="col-md-4 col-form-label text-md-right">パスワード</label>
+
+	                            <div class="col-md-6">
+	                                <input id="password" type="password" class="form-control" name="password" autocomplete="current-password"  required>
+	                            </div>
+	                        </div>
+
+	                        <div class="col-md-8 offset-md-4">
+	                            <button type="submit" class="btn btn-primary" style="width:150px">
+	                                LOGIN
+	                            </button>
+	                        </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
+<!--
+		<TABLE width="98%">
+			<TR>
+				<TD>
+					<FIELDSET>
+						<LEGEND><FONT color="#000099"><B>照会条件指定</B></FONT></LEGEND>
+						<TABLE>
+							<TBODY>
+								<TR>
+									<TD class="HEAD" WIDTH="80" align="center">
+										申請者所属
+									</TD>
+									<TD class="LIST">
+
+										<SELECT name="shozoku">
+											<OPTION value="">自申請分のみ</OPTION>
+											<OPTION value="999" th:selected="${shozoku} == 999">全所属部課</OPTION>
+											<option th:each="item : ${selectItems}" th:value="${item.key}" th:text="${item.value}" th:selected="${item.key} == ${shozoku}">singleSelect</option>
+										</SELECT>
+									</TD>
+								</TR>
+								<TR>
+									<TD class="HEAD" WIDTH="80" align="center">
+										仮払ｽﾃｰﾀｽ
+									</TD>
+									<TD class="LIST">
+										<select id="kari_status" name="kari_status">
+											 <option th:each="item2 : ${selectMeisyo}" th:value="${item2.key}" th:text="${item2.value}" th:selected="${item2.key} == ${kari_status}" >singleSelect</option>
+										</select>
+									</TD>
+								</TR>
+								<TR>
+									<TD class="HEAD" WIDTH="80" align="center">
+										精算状況
+									</TD>
+									<TD class="LIST">
+										<SELECT name="sei_status">
+											<OPTION value=""></OPTION>
+											<OPTION value="0" th:selected="${sei_status} == 0">未精算のみ</OPTION>
+											<OPTION value="1" th:selected="${sei_status} == 1">精算済のみ</OPTION>
+											<OPTION value="2" th:selected="${sei_status} == 2">相殺済のみ</OPTION>
+										</SELECT>
+									</TD>
+								</TR>
+								<TR>
+									<TD>
+									</TD>
+									<TD>
+										<BUTTON CLASS="NORMAL" name="btn" TITLE="指定した照会条件で再表示します。">再表示</BUTTON>
+									</TD>
+								</TR>
+			  				</TBODY>
+						</TABLE>
+					</FIELDSET>
+				</TD>
+			</TR>
+  <TR>
+    <TD>
+      <FIELDSET><LEGEND> 仮払一覧 </LEGEND>
+      <TABLE cellpadding=0>
+		  <TBODY>
+		    <TR class="HEAD">
+				<TD width="110">プルーフ№</TD>
+				<TD width="80">伝票№</TD>
+				<TD width="80">仮払区分</TD>
+				<TD width="80">精算状況</TD>
+				<TD width="90">仮払ｽﾃｰﾀｽ</TD>
+				<TD width="110">仮払申請者</TD>
+				<TD width="120">仮払起票日</TD>
+				<TD width="120">使用予定日</TD>
+				<TD width="120">仮払申請日</TD>
+				<TD width="120">仮払振込日</TD>
+				<TD width="120">仮払金額</TD>
+		      	<TD width="110">精算ﾌﾟﾙｰﾌ</TD>
+				<TD width="80">精算ｽﾃｰﾀｽ</TD>
+				<TD width="150">仮払目的</TD>
+		    </TR>
+		  	<tr th:each="data : ${list}">
+				<td th:text="|${data.proof_tp}-${data.proof_no}" />
+				<td th:text="${data.denpyo_no}" />
+				<td th:text="${data.karibarai_menu}" />
+				<td th:text="${data.sei_status}" />
+				<td th:text="${data.karibarai_status}" />
+				<td>社員名</td>
+				<td th:text="${data.kihyo_dt}" />
+				<td th:text="${data.riyo_date}" />
+				<td th:text="${data.sinsei_dt}" />
+				<td th:text="${data.furikomi_dt}" />
+				<td th:text="${data.siwake_kin}" />
+				<td></td>
+				<td th:text="${data.status}" />
+				<td th:text="${data.naiyo}" />
+		    </tr>
+		   </TBODY>
+		</TABLE>
+      </FIELDSET>
+    </TD>
+  </TR>
+</TABLE>
+ -->
+</form>
+
+</body>
+</html>

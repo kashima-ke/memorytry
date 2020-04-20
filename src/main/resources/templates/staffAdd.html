@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/app.css">
+<title>スタッフ登録</title>
+</head>
+<SCRIPT>
+document.myform.btn.addEventListener('click', function() {
+
+    document.myform.submit();
+
+});
+</SCRIPT>
+<body>
+		<form th:action="@{/staffAdd}"  name="myform" method="post" th:object="${kariForm}">
+
+			<div class="navbar-fixed-top ">
+			    <nav class="navbar  navbar-light  " style="background-color: #3671ba; color:white">
+					<a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/userInfo" role="button" aria-expanded="false">ユーザー情報</a>
+					<a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/insuranceInfo" role="button" aria-expanded="false">営業職員情報</a>
+			        <a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/download" role="button" aria-expanded="false">CSVダウンロード</a>
+					<a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/staff" role="button" aria-expanded="false" th:if="${role == '1'}">スタッフ登録</a>
+			    </nav>
+		    </div>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div th:if="${msg != null}" class="alert alert-success" role="alert" style="background-color:#FFFFFF">
+            	<p th:text="${msg}"></p>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="userId" class="col-md-4 col-form-label text-md-right">氏名</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="name" name="name" value="" maxlength="100" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="userId" class="col-md-4 col-form-label text-md-right">ユーザーID</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="userId" name="userId" maxlength="100" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="password" class="col-md-4 col-form-label text-md-right">パスワード</label>
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" id="password" name="password" maxlength="16" placeholder="英数字8文字以上16文字以下" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="userId" class="col-md-4 col-form-label text-md-right">ロール</label>
+                        <div class="col-md-6">
+							<select name="role" class="form-control" >
+								<option value=""></OPTION>
+								<option value="1">管理者</OPTION>
+								<option value="2">一般ユーザー</OPTION>
+							</select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 offset-md-4">
+                        <button type="submit" class="btn btn-primary" style="width:150px" onclick="if(!confirm('登録します。よろしいですか？'))return false">
+                            登録
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</form>
+
+</body>
+</html>

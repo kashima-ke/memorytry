@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/app.css">
+<title>ユーザー情報</title>
+</head>
+<SCRIPT>
+document.myform.btn.addEventListener('click', function() {
+
+    document.myform.submit();
+
+});
+</SCRIPT>
+<body>
+		<form th:action="@{/download}"  name="myform" method="post" th:object="${kariForm}">
+
+			<div class="navbar-fixed-top ">
+			    <nav class="navbar  navbar-light  " style="background-color: #3671ba; color:white">
+					<a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/userInfo" role="button" aria-expanded="false">ユーザー情報</a>
+					<a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/insuranceInfo" role="button" aria-expanded="false">営業職員情報</a>
+			        <a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/download" role="button" aria-expanded="false">CSVダウンロード</a>
+					<a class="nav-link" style="colspace:0px;padding:5px;color:#FFFFFF" href="/staff" role="button" aria-expanded="false" th:if="${role == '1'}">スタッフ登録</a>
+			    </nav>
+		    </div>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div th:if="${msg != null}" class="alert alert-success" role="alert" style="background-color:#FFFFFF">
+            	<p th:text="${msg}"></p>
+            </div>
+            <div class="card">
+                <div class="card-body">
+					<table class="table" style="border:0px">
+						<tr>
+							<td style="border:0;align:center" colspan="4">
+								<button type="submit" class="btn btn-primary" style="width:150px">
+	                                ダウンロード
+	                            </button>
+							</td>
+						</tr>
+					</table>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+
+</form>
+
+</body>
+</html>
